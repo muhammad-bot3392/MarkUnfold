@@ -1,0 +1,194 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="using:MarkItDownGUI"
+             x:Class="MarkItDownGUI.App"
+             RequestedThemeVariant="Dark">
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <!-- ═══ Theme-aware resources ═══ -->
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="AccentBrush" Color="#60CDFF" />
+                    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#C5C5C5" />
+                    <SolidColorBrush x:Key="TextTertiaryBrush" Color="#8B8B8B" />
+                    <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#202020" />
+                    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#1A1A1A" />
+                    <SolidColorBrush x:Key="ContentBackgroundBrush" Color="#252525" />
+                    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#2D2D2D" />
+                    <SolidColorBrush x:Key="CardBorderBrush" Color="#3E3E42" />
+                    <SolidColorBrush x:Key="ItemBackgroundBrush" Color="#2D2D2D" />
+                    <SolidColorBrush x:Key="EditorBackgroundBrush" Color="#1E1E1E" />
+                    <SolidColorBrush x:Key="DividerBrush" Color="#3E3E42" />
+                    <SolidColorBrush x:Key="DropZoneActiveBrush" Color="#1A2E3A" />
+                    <SolidColorBrush x:Key="PrimaryButtonBackgroundBrush" Color="#60CDFF" />
+                    <SolidColorBrush x:Key="PrimaryButtonHoverBackgroundBrush" Color="#28B9FF" />
+                    <SolidColorBrush x:Key="PrimaryButtonForegroundBrush" Color="#000000" />
+                    <SolidColorBrush x:Key="SecondaryButtonBackgroundBrush" Color="#3E3E42" />
+                    <SolidColorBrush x:Key="SecondaryButtonHoverBackgroundBrush" Color="#505054" />
+                    <SolidColorBrush x:Key="SecondaryButtonForegroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="InputBackgroundBrush" Color="#2D2D2D" />
+                    <SolidColorBrush x:Key="InputBorderBrush" Color="#3E3E42" />
+                </ResourceDictionary>
+
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="AccentBrush" Color="#0067C8" />
+                    <SolidColorBrush x:Key="TextPrimaryBrush" Color="#1A1A1A" />
+                    <SolidColorBrush x:Key="TextSecondaryBrush" Color="#5D5D5D" />
+                    <SolidColorBrush x:Key="TextTertiaryBrush" Color="#767676" />
+                    <SolidColorBrush x:Key="TitleBarBackgroundBrush" Color="#F5F5F5" />
+                    <SolidColorBrush x:Key="SidebarBackgroundBrush" Color="#F0F0F0" />
+                    <SolidColorBrush x:Key="ContentBackgroundBrush" Color="#FAFAFA" />
+                    <SolidColorBrush x:Key="CardBackgroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="CardBorderBrush" Color="#E5E5E5" />
+                    <SolidColorBrush x:Key="ItemBackgroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="EditorBackgroundBrush" Color="#F5F5F5" />
+                    <SolidColorBrush x:Key="DividerBrush" Color="#E5E5E5" />
+                    <SolidColorBrush x:Key="DropZoneActiveBrush" Color="#E0F2F1" />
+                    <SolidColorBrush x:Key="PrimaryButtonBackgroundBrush" Color="#0067C8" />
+                    <SolidColorBrush x:Key="PrimaryButtonHoverBackgroundBrush" Color="#0052A3" />
+                    <SolidColorBrush x:Key="PrimaryButtonForegroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="SecondaryButtonBackgroundBrush" Color="#E5E5E5" />
+                    <SolidColorBrush x:Key="SecondaryButtonHoverBackgroundBrush" Color="#CCCCCC" />
+                    <SolidColorBrush x:Key="SecondaryButtonForegroundBrush" Color="#1A1A1A" />
+                    <SolidColorBrush x:Key="InputBackgroundBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="InputBorderBrush" Color="#E5E5E5" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.Styles>
+        <FluentTheme />
+
+        <!-- ═══ Control style overrides ═══ -->
+
+        <!-- Sidebar nav buttons -->
+        <Style Selector="Button.SidebarBtn">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="8" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="Padding" Value="12,10" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+        <Style Selector="Button.SidebarBtn:hover">
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+        </Style>
+        <Style Selector="Button.SidebarBtn:pressed">
+            <Setter Property="Background" Value="{DynamicResource CardBorderBrush}" />
+        </Style>
+
+        <!-- Primary button -->
+        <Style Selector="Button.PrimaryButton">
+            <Setter Property="Background" Value="{DynamicResource PrimaryButtonBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource PrimaryButtonForegroundBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="16,10" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <!-- Secondary button -->
+        <Style Selector="Button.SecondaryButton">
+            <Setter Property="Background" Value="{DynamicResource SecondaryButtonBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource SecondaryButtonForegroundBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+
+        <!-- Tertiary/ghost button -->
+        <Style Selector="Button.TertiaryButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Foreground" Value="{DynamicResource TextSecondaryBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="Button.TertiaryButton:hover">
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+        </Style>
+
+        <!-- Icon button -->
+        <Style Selector="Button.IconButton">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="6" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+        </Style>
+        <Style Selector="Button.IconButton:hover">
+            <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
+        </Style>
+
+        <!-- TextBox -->
+        <Style Selector="TextBox">
+            <Setter Property="Background" Value="{DynamicResource InputBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource InputBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="12,8" />
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+            <Setter Property="WatermarkForeground" Value="{DynamicResource TextTertiaryBrush}" />
+        </Style>
+        <Style Selector="TextBox:focus">
+            <Setter Property="BorderBrush" Value="{DynamicResource AccentBrush}" />
+        </Style>
+
+        <!-- ProgressBar -->
+        <Style Selector="ProgressBar">
+            <Setter Property="Foreground" Value="{DynamicResource AccentBrush}" />
+            <Setter Property="Background" Value="{DynamicResource CardBorderBrush}" />
+        </Style>
+
+        <!-- Switch/Toggle style -->
+        <Style Selector="ToggleButton.Switch">
+            <Setter Property="Height" Value="24" />
+            <Setter Property="Width" Value="44" />
+            <Setter Property="Background" Value="{DynamicResource CardBorderBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="12" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border Background="{TemplateBinding Background}"
+                                CornerRadius="12"
+                                Width="{TemplateBinding Width}"
+                                Height="{TemplateBinding Height}">
+                            <Ellipse Width="16" Height="16" Fill="White"
+                                     HorizontalAlignment="Left"
+                                     VerticalAlignment="Center"
+                                     Margin="4,0,0,0"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style Selector="ToggleButton.Switch:checked">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="ToggleButton.Switch:checked > Border > Ellipse">
+            <Setter Property="HorizontalAlignment" Value="Right" />
+            <Setter Property="Margin" Value="0,0,4,0" />
+        </Style>
+
+    </Application.Styles>
+
+</Application>

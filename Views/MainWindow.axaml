@@ -1,0 +1,408 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:MarkItDownGUI.ViewModels"
+        xmlns:models="using:MarkItDownGUI.Models"
+        xmlns:conv="using:MarkItDownGUI.Converters"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1400" d:DesignHeight="800"
+        x:Class="MarkItDownGUI.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Title="MarkUnfold"
+        MinWidth="1230" MinHeight="660"
+        Width="1230" Height="660"
+        Icon="/Assets/icon1.ico"
+        TransparencyLevelHint="Mica"
+        CornerRadius="10"
+        CanResize="True"
+        DragDrop.AllowDrop="True">
+
+    <Window.Resources>
+        <conv:StatusToColorConverter x:Key="StatusToColor"/>
+        <conv:StatusToIconConverter x:Key="StatusToIcon"/>
+        <conv:BoolToStringConverter x:Key="BoolToString"/>
+        <conv:IntToBoolConverter x:Key="IntToBool"/>
+        <conv:InverseBoolConverter x:Key="InvertBool"/>
+    </Window.Resources>
+
+    <Window.Styles>
+        <Style Selector="Button.CancelButton">
+            <Setter Property="Background" Value="{DynamicResource CardBorderBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="12,6" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="12" />
+        </Style>
+        <Style Selector="Button.CancelButton:disabled">
+            <Setter Property="Opacity" Value="0.4" />
+        </Style>
+    </Window.Styles>
+
+    <Grid ColumnDefinitions="280,*,*">
+        <Border Grid.Column="0" Background="{DynamicResource SidebarBackgroundBrush}" Padding="12,16">
+                <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="16">
+
+                    <!-- Row 0: Logo / Branding (always dark) -->
+                    <Border Grid.Row="0" Background="#2D2D2D"
+                            BorderBrush="#3E3E42"
+                            BorderThickness="1" CornerRadius="12" Padding="12">
+                            <Image Source="/Assets/logo_darkbg2.png" Width="230" Stretch="Uniform"
+                                   HorizontalAlignment="Center" />
+                    </Border>
+
+                    <!-- Row 1: Drop zone (was Row 0) -->
+                    <Border Grid.Row="1" Background="{DynamicResource CardBackgroundBrush}"
+                            BorderBrush="{DynamicResource CardBorderBrush}"
+                            BorderThickness="1" CornerRadius="12" Padding="20" MinHeight="140"
+                            DragDrop.AllowDrop="True"
+                            DragDrop.DragEnter="OnDragEnter" DragDrop.DragLeave="OnDragLeave"
+                            DragDrop.Drop="OnDrop" DragDrop.DragOver="OnDragOver">
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top" Spacing="8" Margin="0,12,0,0">
+                            <TextBlock Text="&#xE72C;" FontSize="24" FontFamily="Segoe MDL2 Assets, Segoe UI" HorizontalAlignment="Center" />
+                            <TextBlock Text="Drop files here" FontSize="13"
+                                       Foreground="{DynamicResource TextSecondaryBrush}"
+                                       HorizontalAlignment="Center" TextWrapping="Wrap" />
+                            <TextBlock Text="or click Browse" FontSize="12"
+                                       Foreground="{DynamicResource TextTertiaryBrush}"
+                                       HorizontalAlignment="Center" />
+                            <Button Command="{Binding BrowseFilesCommand}" Classes="PrimaryButton"
+                                    HorizontalAlignment="Center" Margin="0,4,0,0" Padding="12,6" FontSize="12">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <TextBlock Text="&#xE838;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center" />
+                                    <TextBlock Text="Browse Files" Foreground="{DynamicResource PrimaryButtonForegroundBrush}" />
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Row 2: YouTube URL input -->
+                    <Border Grid.Row="2" Background="{DynamicResource CardBackgroundBrush}"
+                            BorderBrush="{DynamicResource CardBorderBrush}"
+                            BorderThickness="1" CornerRadius="12" Padding="12">
+                        <Grid ColumnDefinitions="*,Auto" ColumnSpacing="6">
+                            <TextBox Text="{Binding YoutubeUrl}" FontSize="12"
+                                     PlaceholderText="YouTube URL..." />
+                            <Button Grid.Column="1" Command="{Binding AddYouTubeUrlCommand}"
+                                    Classes="SecondaryButton" Content="Add" Padding="10,6" FontSize="12" />
+                        </Grid>
+                    </Border>
+
+                    <!-- Row 3: Navigation -->
+                    <StackPanel Grid.Row="3" Spacing="4">
+                        <TextBlock Text="Navigation" FontSize="11" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextSecondaryBrush}" Margin="8,0,0,8" />
+                        <Button Command="{Binding SelectTabCommand}" CommandParameter="0" Classes="SidebarBtn">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="&#xE8A5;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center" />
+                                <TextBlock Text="Convert" FontSize="13" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding SelectTabCommand}" CommandParameter="1" Classes="SidebarBtn">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="&#xE81E;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center" />
+                                <TextBlock Text="History" FontSize="13" />
+                            </StackPanel>
+                        </Button>
+                        <Button Command="{Binding SelectTabCommand}" CommandParameter="2" Classes="SidebarBtn">
+                            <StackPanel Orientation="Horizontal" Spacing="10">
+                                <TextBlock Text="&#xE713;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center" />
+                                <TextBlock Text="Settings" FontSize="13" />
+                            </StackPanel>
+                        </Button>
+                        <Border Height="1" Background="{DynamicResource DividerBrush}" Margin="8,12" />
+                        <TextBlock Text="{Binding SupportedTypes}" TextWrapping="Wrap"
+                                   FontSize="10" Foreground="{DynamicResource TextTertiaryBrush}" Margin="8,0" />
+                    </StackPanel>
+
+                    <!-- Row 4: Theme toggle -->
+                    <ToggleButton Grid.Row="4" Width="40" Height="40" CornerRadius="8"
+                                  IsChecked="{Binding IsDarkTheme}"
+                                  HorizontalAlignment="Left"
+                                  Background="{DynamicResource CardBackgroundBrush}"
+                                  BorderBrush="{DynamicResource CardBorderBrush}"
+                                  BorderThickness="1" Cursor="Hand">
+                        <Grid>
+                            <TextBlock Text="&#xE706;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                       IsVisible="{Binding IsDarkTheme}" />
+                            <TextBlock Text="&#xE708;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                       IsVisible="{Binding IsDarkTheme, Converter={StaticResource InvertBool}}" />
+                        </Grid>
+                    </ToggleButton>
+
+                </Grid>
+            </Border>
+
+            <!-- ──────── MIDDLE PANEL ──────── -->
+            <Border Grid.Column="1" Background="{DynamicResource ContentBackgroundBrush}"
+                    MinWidth="465" MinHeight="658" Padding="12" Margin="10,0,5,0">
+                <Grid>
+
+                    <!-- ══ Convert tab ══ -->
+                    <Grid IsVisible="{Binding SelectedTab, Converter={StaticResource IntToBool},
+                                               ConverterParameter=0}"
+                           RowDefinitions="*,Auto,Auto" RowSpacing="12">
+
+                        <!-- Row 0: File list (fixed 340, scrollable) -->
+                         <Border Grid.Row="0" Background="{DynamicResource CardBackgroundBrush}"
+                                 BorderBrush="{DynamicResource CardBorderBrush}"
+                                 BorderThickness="1" CornerRadius="10" Padding="16"
+                                  MinHeight="360">
+                            <Grid RowDefinitions="Auto,*,Auto" RowSpacing="12">
+                                <Grid ColumnDefinitions="*,Auto">
+                                    <StackPanel Orientation="Horizontal" Spacing="4" VerticalAlignment="Center">
+                                        <TextBlock Text="{Binding TotalFiles}" FontSize="14" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+                                        <TextBlock Text=" file(s) selected" FontSize="14" FontWeight="SemiBold"
+                                                   Foreground="{DynamicResource TextPrimaryBrush}" />
+                                    </StackPanel>
+                                     <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                         <Button Command="{Binding ClearFilesCommand}" Classes="TertiaryButton" Content="Clear" />
+                                         <Button Command="{Binding CancelConversionCommand}"
+                                                 IsEnabled="{Binding IsConverting}" Classes="CancelButton" Content="Cancel" />
+                                         <Button Command="{Binding ConvertAllCommand}"
+                                                 IsEnabled="{Binding IsConverting, Converter={StaticResource InvertBool}}"
+                                                Classes="PrimaryButton">
+                                            <StackPanel Orientation="Horizontal" Spacing="8">
+                                                <TextBlock Text="&#xE8A5;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center" />
+                                                <TextBlock Text="Convert All" Foreground="{DynamicResource PrimaryButtonForegroundBrush}" />
+                                            </StackPanel>
+                                        </Button>
+                                    </StackPanel>
+                                </Grid>
+                                <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Disabled">
+                                    <ItemsControl ItemsSource="{Binding Files}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate DataType="models:FileItem">
+                                                <Border Margin="0,4" Padding="12" CornerRadius="8"
+                                                        Background="{DynamicResource ItemBackgroundBrush}"
+                                                        BorderBrush="{DynamicResource CardBorderBrush}"
+                                                        BorderThickness="1"
+                                                        PointerPressed="OnFileItemPointerPressed">
+                                                    <Grid ColumnDefinitions="Auto,*,Auto,Auto" ColumnSpacing="12">
+                                                         <TextBlock Text="{Binding Status, Converter={StaticResource StatusToIcon}}"
+                                                                    FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI"
+                                                                    VerticalAlignment="Center"
+                                                                    Foreground="{Binding Status, Converter={StaticResource StatusToColor}}" />
+                                                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                                             <TextBlock Text="{Binding FileName}" FontSize="14" FontWeight="Medium"
+                                                                        Foreground="{DynamicResource TextPrimaryBrush}" />
+                                                             <TextBlock Text="{Binding FilePath}" FontSize="11"
+                                                                        Foreground="{DynamicResource TextTertiaryBrush}"
+                                                                        TextTrimming="CharacterEllipsis" />
+                                                             <TextBlock Text="{Binding ErrorMessage}" FontSize="11"
+                                                                        Foreground="#E81123"
+                                                                        TextTrimming="CharacterEllipsis" />
+                                                         </StackPanel>
+                                                        <TextBlock Grid.Column="2" Text="{Binding Status}"
+                                                                   FontSize="11" FontWeight="SemiBold"
+                                                                   Foreground="{Binding Status, Converter={StaticResource StatusToColor}}"
+                                                                   VerticalAlignment="Center" />
+                                                        <StackPanel Grid.Column="3" Orientation="Horizontal" Spacing="4">
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.OpenFileCommand}"
+                                                                    CommandParameter="{Binding OutputPath}"
+                                                                    Classes="IconButton" ToolTip.Tip="Open file">
+                                                                <TextBlock Text="&#xE838;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center" />
+                                                            </Button>
+                                                            <Button Command="{Binding $parent[ItemsControl].DataContext.RemoveFileCommand}"
+                                                                    CommandParameter="{Binding .}"
+                                                                    Classes="IconButton" ToolTip.Tip="Remove">
+                                                                <TextBlock Text="&#xE711;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center" />
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </ScrollViewer>
+                                <ProgressBar Grid.Row="2" Value="{Binding ProgressPercent}"
+                                             IsVisible="{Binding IsConverting}" Height="4" CornerRadius="2" />
+                            </Grid>
+                        </Border>
+
+                        <!-- Row 1: Output folder (fixed 72) -->
+                        <Border Grid.Row="1" Background="{DynamicResource CardBackgroundBrush}"
+                                BorderBrush="{DynamicResource CardBorderBrush}"
+                                BorderThickness="1" CornerRadius="10" Padding="16"
+                                 Height="70" MinHeight="70" MaxHeight="70">
+                            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="8">
+                                <StackPanel VerticalAlignment="Center">
+                                    <TextBlock Text="Output folder" FontSize="12"
+                                               Foreground="{DynamicResource TextSecondaryBrush}" />
+                                    <TextBlock Text="{Binding OutputFolder}" FontSize="13"
+                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </StackPanel>
+                                <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
+                                    <Button Command="{Binding BrowseOutputFolderCommand}" Classes="SecondaryButton" Content="Change" />
+                                    <Button Command="{Binding OpenOutputFolderCommand}" Classes="SecondaryButton" Content="Open" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+
+                        <!-- Row 2: Conversion log (fixed 180, scrollable) -->
+                        <Border Grid.Row="2" Background="{DynamicResource CardBackgroundBrush}"
+                                BorderBrush="{DynamicResource CardBorderBrush}"
+                                BorderThickness="1" CornerRadius="10" Padding="16"
+                                Height="180" MinHeight="180" MaxHeight="180">
+                            <Grid RowDefinitions="Auto,*" RowSpacing="8">
+                                <TextBlock Text="Conversion Log" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="{DynamicResource TextPrimaryBrush}" />
+                                <Border Grid.Row="1" Background="{DynamicResource EditorBackgroundBrush}"
+                                        CornerRadius="8" Padding="12">
+                                    <ScrollViewer>
+                                        <ItemsControl ItemsSource="{Binding LogLines}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate DataType="x:String">
+                                                    <TextBlock Text="{Binding .}" FontSize="11"
+                                                               FontFamily="Cascadia Code, Consolas, monospace"
+                                                               Foreground="{DynamicResource TextSecondaryBrush}" />
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </ScrollViewer>
+                                </Border>
+                            </Grid>
+                        </Border>
+
+                    </Grid>
+
+                    <!-- ══ History tab ══ -->
+                    <ScrollViewer IsVisible="{Binding SelectedTab, Converter={StaticResource IntToBool},
+                                                       ConverterParameter=1}"
+                                  Padding="12" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Spacing="16">
+                            <Grid ColumnDefinitions="*,Auto">
+                                <TextBlock Text="Conversion History" FontSize="20" FontWeight="Bold"
+                                           Foreground="{DynamicResource TextPrimaryBrush}" />
+                                <Button Grid.Column="1" Command="{Binding ClearHistoryCommand}"
+                                        Classes="TertiaryButton" Content="Clear All" />
+                            </Grid>
+                            <ItemsControl ItemsSource="{Binding History}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate DataType="models:ConversionHistoryEntry">
+                                        <Border Margin="0,4" Padding="16" CornerRadius="10"
+                                                Background="{DynamicResource CardBackgroundBrush}"
+                                                BorderBrush="{DynamicResource CardBorderBrush}" BorderThickness="1">
+                                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="12">
+                                                <TextBlock Text="{Binding Success, Converter={StaticResource BoolToString}, ConverterParameter=&#xE73E;|&#xE711;}" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center"
+                                                           Foreground="{DynamicResource TextTertiaryBrush}" />
+                                                <StackPanel Grid.Column="1">
+                                                    <TextBlock Text="{Binding SourceFile}" FontSize="13" FontWeight="Medium"
+                                                               Foreground="{DynamicResource TextPrimaryBrush}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Text="{Binding OutputFile}" FontSize="11"
+                                                               Foreground="{DynamicResource TextTertiaryBrush}"
+                                                               TextTrimming="CharacterEllipsis" />
+                                                    <TextBlock Text="{Binding ConvertedAtFormatted}" FontSize="11"
+                                                               Foreground="{DynamicResource TextTertiaryBrush}" />
+                                                </StackPanel>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                    <!-- ══ Settings tab ══ -->
+                    <ScrollViewer IsVisible="{Binding SelectedTab, Converter={StaticResource IntToBool},
+                                                       ConverterParameter=2}"
+                                  Padding="12" HorizontalScrollBarVisibility="Disabled">
+                        <StackPanel Spacing="16" MaxWidth="500">
+                            <TextBlock Text="Settings" FontSize="20" FontWeight="Bold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}" />
+                            <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                                    BorderThickness="1" CornerRadius="12" Padding="16">
+                                <StackPanel Spacing="12">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBlock Text="Azure Document Intelligence" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" />
+                                        <ToggleButton Grid.Column="1" IsChecked="{Binding UseDocIntel}" Classes="Switch" />
+                                    </Grid>
+                                    <TextBox Text="{Binding DocIntelEndpoint}" PlaceholderText="Endpoint URL (https://...)"
+                                             IsVisible="{Binding UseDocIntel}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                                    BorderThickness="1" CornerRadius="12" Padding="16">
+                                <StackPanel Spacing="12">
+                                    <Grid ColumnDefinitions="*,Auto">
+                                        <TextBlock Text="Azure Content Understanding" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" />
+                                        <ToggleButton Grid.Column="1" IsChecked="{Binding UseContentUnderstanding}" Classes="Switch" />
+                                    </Grid>
+                                    <TextBox Text="{Binding CuEndpoint}" PlaceholderText="CU Endpoint URL"
+                                             IsVisible="{Binding UseContentUnderstanding}" />
+                                    <TextBox Text="{Binding CuAnalyzer}" PlaceholderText="Analyzer ID (optional)"
+                                             IsVisible="{Binding UseContentUnderstanding}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Background="{DynamicResource CardBackgroundBrush}" BorderBrush="{DynamicResource CardBorderBrush}"
+                                    BorderThickness="1" CornerRadius="12" Padding="16">
+                                <StackPanel Spacing="6">
+                                    <TextBlock Text="About" FontSize="14" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" />
+                                    <TextBlock Text="MarkUnfold v1.0" FontSize="12" Foreground="{DynamicResource TextSecondaryBrush}" />
+
+                                    <Border Height="1" Background="{DynamicResource DividerBrush}" Margin="0,2" />
+
+                                    <TextBlock Text="Developed by MTech Engineering" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextPrimaryBrush}" />
+                                    <TextBlock Text="Built with Avalonia UI &amp; .NET" FontSize="11" Foreground="{DynamicResource TextTertiaryBrush}" />
+
+                                    <Border Height="1" Background="{DynamicResource DividerBrush}" Margin="0,2" />
+
+                                    <TextBlock Text="This software uses MarkItDown (Microsoft Corporation) — MIT License" FontSize="11"
+                                               Foreground="{DynamicResource TextTertiaryBrush}" TextWrapping="Wrap" />
+                                    <TextBlock Text="Copyright © Microsoft Corporation. Licensed under the MIT License." FontSize="10"
+                                               Foreground="{DynamicResource TextTertiaryBrush}" TextWrapping="Wrap" />
+                                    <TextBlock Text="Also uses: Avalonia UI (MIT), CommunityToolkit.Mvvm (MIT), .NET (MIT)." FontSize="10"
+                                               Foreground="{DynamicResource TextTertiaryBrush}" TextWrapping="Wrap" />
+                                </StackPanel>
+                            </Border>
+                        </StackPanel>
+                    </ScrollViewer>
+
+                </Grid>
+            </Border>
+
+            <!-- ──────── RIGHT PANEL (Preview only) ──────── -->
+            <Border Grid.Column="2" Background="{DynamicResource ContentBackgroundBrush}"
+                    MinWidth="465" Padding="12" Margin="5,0,0,0" MinHeight="658">
+                <Border Background="{DynamicResource CardBackgroundBrush}"
+                        BorderBrush="{DynamicResource CardBorderBrush}"
+                        BorderThickness="1" CornerRadius="12" Padding="16" MinHeight="634">
+                    <Grid RowDefinitions="Auto,*" RowSpacing="8">
+                        <Grid ColumnDefinitions="*,Auto">
+                            <TextBlock Text="Preview" FontSize="14" FontWeight="SemiBold"
+                                       Foreground="{DynamicResource TextPrimaryBrush}"
+                                       VerticalAlignment="Center" />
+                            <Button Grid.Column="1"
+                                    Command="{Binding CopyMarkdownCommand}"
+                                    CommandParameter="{Binding SelectedMarkdown}"
+                                    Classes="SecondaryButton">
+                                <StackPanel Orientation="Horizontal" Spacing="6">
+                                    <TextBlock Text="&#xE8C8;" FontSize="16" FontFamily="Segoe MDL2 Assets, Segoe UI" VerticalAlignment="Center" />
+                                    <TextBlock Text="Copy" Foreground="{DynamicResource SecondaryButtonForegroundBrush}" />
+                                </StackPanel>
+                            </Button>
+                        </Grid>
+                        <Border Grid.Row="1" Background="{DynamicResource EditorBackgroundBrush}"
+                                CornerRadius="8" Padding="12">
+                            <ScrollViewer>
+                                <TextBlock Text="{Binding SelectedMarkdown}"
+                                           FontFamily="Cascadia Code, Consolas, monospace"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource TextPrimaryBrush}"
+                                           TextWrapping="Wrap" />
+                            </ScrollViewer>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Border>
+        </Grid>
+
+</Window>

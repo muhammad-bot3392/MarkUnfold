@@ -1,0 +1,47 @@
+name: Build and Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.x'
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Python dependencies
+        run: |
+          pip install --upgrade pip
+          pip install "markitdown[all]"
+
+      - name: Restore NuGet packages
+        run: dotnet restore MarkItDownGUI/MarkItDownGUI.csproj
+
+      - name: Build
+        run: dotnet build MarkItDownGUI/MarkItDownGUI.csproj --configuration Release --no-restore
+
+      - name: Run tests
+        run: dotnet test MarkItDownGUI.Tests/MarkItDownGUI.Tests.csproj --configuration Release --no-build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: MarkUnfold-Windows-x64
+          path: MarkItDownGUI/bin/Release/net9.0/win-x64/publish/
+          retention-days: 30

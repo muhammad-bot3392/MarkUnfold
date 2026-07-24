@@ -1,0 +1,54 @@
+## .NET build outputs
+bin/
+obj/
+out/
+
+## NuGet packages
+*.nupkg
+*.snupkg
+packages/
+project.nuget.cache
+
+## User-specific files
+*.user
+*.suo
+*.userprefs
+*.DS_Store
+Thumbs.db
+
+## IDE
+.vs/
+.idea/
+*.swp
+*.sln.docstates
+
+## Avalonia
+.avalonia/
+tmp/
+
+## Python bridge cache
+.python_cache/
+__pycache__/
+*.pyc
+
+## Test results
+TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+## Logs
+*.log
+logs/
+
+## OS
+Desktop.ini
+$RECYCLE.BIN/
+
+## Installers / Publish output
+publish/
+*.msi
+*.exe (built files in repo)
+markitdown.exe
+markitdown-*.zip
+node_modules
