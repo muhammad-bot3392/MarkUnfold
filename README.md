@@ -23,7 +23,9 @@ A modern desktop application for converting documents to Markdown using [MarkItD
 
 ## Screenshots
 
-*(Screenshots coming soon)*
+![Screenshot 1](Assets/1.png)
+![Screenshot 2](Assets/2.png)
+![Screenshot 3](Assets/3.png)
 
 ## Installation
 
