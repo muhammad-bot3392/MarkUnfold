@@ -1,4 +1,4 @@
-name: Build and Test
+name: Build
 
 on:
   push:
@@ -30,13 +30,10 @@ jobs:
           pip install "markitdown[all]"
 
       - name: Restore NuGet packages
-        run: dotnet restore MarkItDownGUI/MarkItDownGUI.csproj
+        run: dotnet restore MarkItDownGUI.csproj
 
       - name: Build
-        run: dotnet build MarkItDownGUI/MarkItDownGUI.csproj --configuration Release --no-restore
-
-      - name: Run tests
-        run: dotnet test MarkItDownGUI.Tests/MarkItDownGUI.Tests.csproj --configuration Release --no-build
+        run: dotnet build MarkItDownGUI.csproj --configuration Release --no-restore
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v4

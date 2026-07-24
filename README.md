@@ -7,6 +7,7 @@ A modern desktop application for converting documents to Markdown using [MarkItD
 ![Avalonia UI](https://img.shields.io/badge/UI-Avalonia-blue?style=flat-square)
 ![.NET](https://img.shields.io/badge/.NET-9.0-blue?style=flat-square)
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+![Windows](https://img.shields.io/badge/Windows-10%2F11-blue?style=flat-square)
 
 ## Features
 
@@ -18,48 +19,19 @@ A modern desktop application for converting documents to Markdown using [MarkItD
 - **Azure Integration** — Optional Document Intelligence and Content Understanding for enhanced conversion
 - **Conversion History** — Track past conversions with timestamps
 - **Configurable Output** — Choose your own output directory with file name collision handling
+- **Fully Offline** — No internet required after downloading the release
 
 ## Screenshots
 
 *(Screenshots coming soon)*
 
-## Prerequisites
-
-- **Windows 10/11** (64-bit)
-- No other software required — the release package includes everything
-
 ## Installation
 
-### Option 1: Download Release (Recommended)
-
-Download the latest `MarkUnfold.zip` from the [Releases page](https://github.com/mohammad-bot3390/MarkUnfold/releases).
+Download the latest `MarkUnfold-v0.1.6-win-x64.zip` from the [Releases page](https://github.com/mohammad-bot3390/MarkUnfold/releases).
 
 1. Extract the zip to any folder
 2. Run `MarkUnfold.exe`
-3. That's it — Python runtime and all MarkItDown dependencies are already included, no internet required
-
-### Option 2: Build from Source
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/mohammad-bot3390/MarkUnfold.git
-   cd MarkUnfold/MarkItDownGUI
-   ```
-
-2. Build the application:
-   ```bash
-   dotnet build --configuration Release
-   ```
-
-3. Run:
-   ```bash
-   dotnet run --project MarkItDownGUI.csproj
-   ```
-
-> **Note:** When running from source, Python 3.10+ and `markitdown[all]` must be installed separately:
-> ```bash
-> pip install "markitdown[all]"
-> ```
+3. That's it — no installation, no Python setup, no internet required
 
 ## Usage
 
@@ -83,6 +55,17 @@ Download the latest `MarkUnfold.zip` from the [Releases page](https://github.com
 | Email | MSG |
 | Misc | TXT, MD |
 | Web | YouTube URLs |
+
+## Offline Operation
+
+MarkUnfold is designed to work completely offline. The release package includes:
+
+- `MarkUnfold.exe` — Self-contained .NET 9.0 application (no .NET runtime installation required)
+- `python/` — Portable Python 3.11 runtime (Windows embeddable distribution)
+- `python/Lib/site-packages/` — Pre-installed `markitdown[all]` and all dependencies
+- `markitdown_bridge.py` — Python bridge script
+
+No internet connection is required at any point. All document conversion happens locally using the bundled Python runtime.
 
 ## Architecture
 
@@ -121,41 +104,16 @@ Settings are stored in `%APPDATA%\MarkUnfold\prefs.json`:
 - Azure Content Understanding settings
 - Conversion history
 
-## Why a GUI for MarkItDown?
+## Building from Source
 
-MarkItDown is a powerful CLI tool, but many users prefer a visual interface for batch operations, file browsing, and previewing results. MarkUnfold wraps MarkItDown's capabilities in a modern desktop experience.
+See [BUILD.md](BUILD.md) for detailed build instructions.
 
-## Offline Operation
-
-MarkUnfold is designed to work completely offline. When packaged for release, the application includes:
-
-- `MarkUnfold.exe` — Self-contained .NET 9.0 application (no .NET runtime installation required)
-- `python/` — Portable Python 3.11 runtime (Windows embeddable distribution)
-- `python/Scripts/` — Pre-installed `markitdown[all]` and all dependencies
-- `markitdown_bridge.py` — Python bridge script
-
-No internet connection is required at any point. All document conversion happens locally using the bundled Python runtime.
-
-## Packaging a Release
-
-To create a release zip for distribution:
-
-1. Download [Python 3.11 embeddable zip](https://www.python.org/downloads/windows/) (Windows embeddable package)
-2. Extract it into `MarkItDownGUI/python/` so you have:
-   ```
-   MarkItDownGUI/python/python.exe
-   MarkItDownGUI/python/Scripts/
-   MarkItDownGUI/python/Lib/
-   ```
-3. Install markitdown into the bundled Python:
-   ```bash
-   MarkItDownGUI/python/python.exe -m pip install --quiet -r MarkItDownGUI/python/requirements.txt
-   ```
-4. Build the C# app:
-   ```bash
-   dotnet publish MarkItDownGUI/MarkItDownGUI.csproj -c Release
-   ```
-5. Zip the contents of the `publish/` folder and upload to GitHub Releases
+Quick start:
+```bash
+git clone https://github.com/mohammad-bot3390/MarkUnfold.git
+cd MarkUnfold/MarkItDownGUI
+dotnet run --project MarkItDownGUI.csproj
+```
 
 ## License
 
