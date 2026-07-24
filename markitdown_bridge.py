@@ -3,7 +3,7 @@
 markitdown_bridge.py — JSON-based bridge between the Avalonia GUI and the MarkItDown Python library.
 
 Architecture choice (Python-subprocess-bridge over CLI-shell-out):
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 We use a small Python helper script that the C# app invokes as an external
 process. This gives us three advantages over shelling out to the `markitdown`
 CLI directly:
@@ -29,6 +29,71 @@ import base64
 import os
 import traceback
 from pathlib import Path
+
+# Fix Windows console encoding issues (emoji, non-ASCII chars in transcripts)
+if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+    sys.stdout.reconfigure(encoding='utf-8')
+if sys.stderr.encoding and sys.stderr.encoding.lower() != 'utf-8':
+    sys.stderr.reconfigure(encoding='utf-8')
+
+
+def convert_youtube(url: str, options: dict) -> dict:
+    """
+    Convert a YouTube URL to Markdown using youtube-transcript-api directly.
+    Bypasses markitdown's broken YouTube implementation.
+    """
+    import re
+    try:
+        from youtube_transcript_api import YouTubeTranscriptApi
+    except ImportError:
+        return {
+            "success": False,
+            "error": "youtube-transcript-api is not installed. Run: pip install youtube-transcript-api",
+            "error_type": "ImportError",
+        }
+
+    video_id = None
+    match = re.search(r'(?:v=|\/)([0-9A-Za-z_-]{11})', url)
+    if match:
+        video_id = match.group(1)
+
+    if not video_id:
+        return {
+            "success": False,
+            "error": f"Could not extract video ID from URL: {url}",
+            "error_type": "ValueError",
+        }
+
+    try:
+        api = YouTubeTranscriptApi()
+        transcript = api.fetch(video_id)
+    except Exception as e:
+        return {
+            "success": False,
+            "error": f"Could not fetch transcript: {e}",
+            "error_type": type(e).__name__,
+        }
+
+    if not transcript:
+        return {
+            "success": False,
+            "error": "No transcript available for this video.",
+            "error_type": "ValueError",
+        }
+
+    lines = []
+    for entry in transcript:
+        text = entry.text if hasattr(entry, 'text') else entry.get('text', '')
+        if text:
+            lines.append(text)
+
+    markdown = "\n\n".join(lines)
+
+    return {
+        "success": True,
+        "markdown": markdown,
+        "title": f"YouTube Transcript ({video_id})",
+    }
 
 
 def convert_file(file_path: str, options: dict) -> dict:
@@ -132,6 +197,8 @@ def _handle_command(decoded: str) -> dict:
         if not source:
             return {"success": False, "error": "No file_path provided"}
         if source.startswith(("http://", "https://", "ftp://")):
+            if "youtube.com" in source or "youtu.be" in source:
+                return convert_youtube(source, command.get("options", {}))
             return convert_file(source, command.get("options", {}))
         if not os.path.isfile(source):
             return {"success": False, "error": f"File not found: {source}"}
