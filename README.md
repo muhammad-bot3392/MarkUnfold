@@ -27,7 +27,7 @@ A modern desktop application for converting documents to Markdown using [MarkItD
 
 ## Installation
 
-Download the latest `MarkUnfold-v0.1.6-win-x64.zip` from the [Releases page](https://github.com/muhammad-bot3392/MarkUnfold/releases).
+Download the latest `MarkUnfold-v1.0.0-win-x64.zip` from the [Releases page](https://github.com/muhammad-bot3392/MarkUnfold/releases).
 
 1. Extract the zip to any folder
 2. Run `MarkUnfold.exe`
