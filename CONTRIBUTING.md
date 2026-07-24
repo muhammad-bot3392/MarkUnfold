@@ -6,7 +6,7 @@ Thank you for your interest in contributing to MarkUnfold! This is a community-d
 
 ### Reporting Bugs
 
-1. Check existing [Issues](https://github.com/mohammad-bot3390/MarkUnfold/issues) to avoid duplicates
+1. Check existing [Issues](https://github.com/muhammad-bot3392/MarkUnfold/issues) to avoid duplicates
 2. Create a new issue with:
    - A clear, descriptive title
    - Steps to reproduce the bug
@@ -74,7 +74,7 @@ MarkItDownGUI.Tests/
 1. Install .NET 9.0 SDK
 2. Clone the repo:
    ```bash
-   git clone https://github.com/mohammad-bot3390/MarkUnfold.git
+   git clone https://github.com/muhammad-bot3392/MarkUnfold.git
    cd MarkUnfold
    ```
 3. Build and run:

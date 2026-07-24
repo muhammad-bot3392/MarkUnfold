@@ -27,7 +27,7 @@ A modern desktop application for converting documents to Markdown using [MarkItD
 
 ## Installation
 
-Download the latest `MarkUnfold-v0.1.6-win-x64.zip` from the [Releases page](https://github.com/mohammad-bot3390/MarkUnfold/releases).
+Download the latest `MarkUnfold-v0.1.6-win-x64.zip` from the [Releases page](https://github.com/muhammad-bot3392/MarkUnfold/releases).
 
 1. Extract the zip to any folder
 2. Run `MarkUnfold.exe`
@@ -110,7 +110,7 @@ See [BUILD.md](BUILD.md) for detailed build instructions.
 
 Quick start:
 ```bash
-git clone https://github.com/mohammad-bot3390/MarkUnfold.git
+git clone https://github.com/muhammad-bot3392/MarkUnfold.git
 cd MarkUnfold/MarkItDownGUI
 dotnet run --project MarkItDownGUI.csproj
 ```
@@ -130,6 +130,6 @@ This project is a derivative work based on [MarkItDown](https://github.com/micro
 
 ## Support
 
-For issues specific to this GUI, please use [GitHub Issues](https://github.com/mohammad-bot3390/MarkUnfold/issues).
+For issues specific to this GUI, please use [GitHub Issues](https://github.com/muhammad-bot3392/MarkUnfold/issues).
 
 For MarkItDown library issues, visit the [upstream repository](https://github.com/microsoft/markitdown/issues).
