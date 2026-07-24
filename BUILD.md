@@ -4,7 +4,6 @@
 
 - .NET 9.0 SDK or later
 - Windows 10/11 (for publishing as win-x64)
-- Python 3.10+ (for building/testing the bridge script)
 
 ## Quick Build
 
@@ -29,6 +28,27 @@ dotnet publish MarkItDownGUI/MarkItDownGUI.csproj -c Release
 ```
 
 Output will be in `MarkItDownGUI/bin/Release/net9.0/win-x64/publish/`.
+
+## Packaging a Release (with bundled Python)
+
+To create a fully offline release zip:
+
+1. Download [Python 3.11 embeddable zip](https://www.python.org/downloads/windows/) (Windows embeddable package)
+2. Extract it into `MarkItDownGUI/python/` so you have:
+   ```
+   MarkItDownGUI/python/python.exe
+   MarkItDownGUI/python/Scripts/
+   MarkItDownGUI/python/Lib/
+   ```
+3. Install markitdown into the bundled Python:
+   ```bash
+   MarkItDownGUI/python/python.exe -m pip install --quiet -r MarkItDownGUI/python/requirements.txt
+   ```
+4. Build the C# app:
+   ```bash
+   dotnet publish MarkItDownGUI/MarkItDownGUI.csproj -c Release
+   ```
+5. Zip the contents of the `publish/` folder — the `python/` directory will be included automatically
 
 ## Code Signing
 
@@ -57,13 +77,10 @@ See [.github/workflows/build.yml](.github/workflows/build.yml) for the automated
 
 ## Dependencies
 
-The app requires Python 3.10+ and the `markitdown` package with its extras. On first run or via the Settings panel, the app can automatically set up these dependencies.
-
-Manual setup:
-
-```bash
-pip install "markitdown[all]"
-```
+The release package includes:
+- .NET 9.0 runtime (self-contained)
+- Python 3.11 embeddable runtime
+- markitdown[all] with all extras (pdf, docx, pptx, xlsx, audio, youtube)
 
 Required extras:
 - `pdf` — pdfminer.six
