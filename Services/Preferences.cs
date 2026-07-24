@@ -11,7 +11,7 @@ public static class Preferences
 {
     private static readonly string FilePath = Path.Combine(
         Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "MarkItDownGUI",
+        "MarkUnfold",
         "prefs.json");
 
     private static PrefsData? _cache;

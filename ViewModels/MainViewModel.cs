@@ -102,7 +102,7 @@ public partial class MainViewModel : ViewModelBase
         var savedFolder = Preferences.GetOutputFolder();
         OutputFolder = savedFolder ?? Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
-            "MarkItDown Converted");
+             "MarkUnfold Converted");
 
         var savedTheme = Preferences.GetTheme();
         IsDarkTheme = savedTheme == "dark";

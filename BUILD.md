@@ -38,13 +38,13 @@ For production distribution, sign the executable with an EV code-signing certifi
 2. Sign the executable using SignTool:
 
 ```bash
-signtool sign /fd SHA256 /a /tr http://timestamp.digicert.com /td SHA256 MarkItDownGUI.exe
+signtool sign /fd SHA256 /a /tr http://timestamp.digicert.com /td SHA256 MarkUnfold.exe
 ```
 
 3. Verify the signature:
 
 ```bash
-signtool verify /pa MarkItDownGUI.exe
+signtool verify /pa MarkUnfold.exe
 ```
 
 **Note:** Without code signing, users will see Windows SmartScreen warnings when running the app. Open-source projects can obtain free or discounted code-signing certificates through:

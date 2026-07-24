@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <AssemblyName>MarkUnfold</AssemblyName>
     <ApplicationIcon>Assets\icon1.ico</ApplicationIcon>
     <ApplicationManifest>app.manifest</ApplicationManifest>
     <RuntimeIdentifier>win-x64</RuntimeIdentifier>

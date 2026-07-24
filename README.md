@@ -109,7 +109,7 @@ The GUI communicates with the Python `markitdown` library via a bridge script (`
 
 ## Configuration
 
-Settings are stored in `%APPDATA%\MarkItDownGUI\prefs.json`:
+Settings are stored in `%APPDATA%\MarkUnfold\prefs.json`:
 
 - Theme (dark/light)
 - Output folder
