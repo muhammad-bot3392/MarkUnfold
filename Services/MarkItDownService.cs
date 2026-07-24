@@ -84,8 +84,7 @@ public class MarkItDownService
     /// </summary>
     public async Task<BridgeResponse> ConvertFileAsync(
         string filePath,
-        ConversionOptions? options = null,
-        CancellationToken ct = default)
+        ConversionOptions? options = null)
     {
         var cmd = new
         {
@@ -94,12 +93,10 @@ public class MarkItDownService
             options = options?.ToDictionary() ?? new Dictionary<string, object>()
         };
         var json = JsonSerializer.Serialize(cmd);
-        return await SendCommandAsync(json, ct);
+        return await SendCommandAsync(json);
     }
 
-    private async Task<BridgeResponse> SendCommandAsync(
-        string json,
-        CancellationToken ct = default)
+    private async Task<BridgeResponse> SendCommandAsync(string json)
     {
         var base64 = Convert.ToBase64String(Encoding.UTF8.GetBytes(json));
 
@@ -127,7 +124,7 @@ public class MarkItDownService
             var output = await process.StandardOutput.ReadToEndAsync();
             var error = await process.StandardError.ReadToEndAsync();
 
-            await process.WaitForExitAsync(ct);
+            await process.WaitForExitAsync();
 
             if (string.IsNullOrWhiteSpace(output))
             {

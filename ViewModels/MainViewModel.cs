@@ -20,7 +20,6 @@ namespace MarkItDownGUI.ViewModels;
 public partial class MainViewModel : ViewModelBase
 {
     private readonly MarkItDownService _service = new();
-    private CancellationTokenSource? _cts;
 
     // ── Navigation ──────────────────────────────────────────────────────────
 
@@ -304,7 +303,6 @@ public partial class MainViewModel : ViewModelBase
     {
         if (IsConverting || Files.Count == 0) return;
 
-        _cts = new CancellationTokenSource();
         IsConverting = true;
         _completedFiles = 0;
         ProgressPercent = 0;
@@ -312,24 +310,15 @@ public partial class MainViewModel : ViewModelBase
 
         try
         {
-            await ProcessConversions(_cts.Token);
+            await ProcessConversions();
         }
         finally
         {
             IsConverting = false;
-            _cts.Dispose();
-            _cts = null;
         }
     }
 
-    [RelayCommand]
-    private void CancelConversion()
-    {
-        _cts?.Cancel();
-        LogLines.Add("Cancelling...");
-    }
-
-    private async Task ProcessConversions(CancellationToken ct)
+    private async Task ProcessConversions()
     {
         // Ensure output folder exists
         try
@@ -354,14 +343,12 @@ public partial class MainViewModel : ViewModelBase
         // Process each file sequentially
         foreach (var file in Files.ToList())
         {
-            if (ct.IsCancellationRequested) break;
-
             file.Status = FileStatus.Converting;
             LogLines.Add($"Converting: {file.FileName}");
 
             try
             {
-                var result = await _service.ConvertFileAsync(file.FilePath, options, ct);
+                var result = await _service.ConvertFileAsync(file.FilePath, options);
 
                 if (result.Success)
                 {
@@ -384,7 +371,7 @@ public partial class MainViewModel : ViewModelBase
                             $"{baseName}_{counter++}.md");
                     }
 
-                    await File.WriteAllTextAsync(outputPath, markdown, ct);
+                    await File.WriteAllTextAsync(outputPath, markdown);
                     file.OutputPath = outputPath;
                     file.Status = FileStatus.Done;
                     SelectedFile = file;
@@ -398,13 +385,6 @@ public partial class MainViewModel : ViewModelBase
                     file.ErrorMessage = err;
                     LogLines.Add($"  ✕ Failed: {err}");
                 }
-            }
-            catch (OperationCanceledException)
-            {
-                file.Status = FileStatus.Failed;
-                file.ErrorMessage = "Cancelled by user";
-                LogLines.Add($"  ✕ Cancelled: {file.FileName}");
-                break;
             }
             catch (Exception ex)
             {

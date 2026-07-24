@@ -18,19 +18,9 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         AvaloniaXamlLoader.Load(this);
-        Closing += OnWindowClosing;
 
         AddHandler(DragDrop.DropEvent, OnWindowDrop);
         AddHandler(DragDrop.DragOverEvent, OnWindowDragOver);
-    }
-
-    private void OnWindowClosing(object? sender, System.ComponentModel.CancelEventArgs e)
-    {
-        if (DataContext is MainViewModel vm && vm.IsConverting)
-        {
-            vm.CancelConversionCommand.Execute(null);
-            e.Cancel = true;
-        }
     }
 
     private void OnWindowDragOver(object? sender, DragEventArgs e)

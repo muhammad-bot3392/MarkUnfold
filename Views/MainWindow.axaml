@@ -25,21 +25,6 @@
         <conv:InverseBoolConverter x:Key="InvertBool"/>
     </Window.Resources>
 
-    <Window.Styles>
-        <Style Selector="Button.CancelButton">
-            <Setter Property="Background" Value="{DynamicResource CardBorderBrush}" />
-            <Setter Property="Foreground" Value="{DynamicResource TextPrimaryBrush}" />
-            <Setter Property="BorderThickness" Value="0" />
-            <Setter Property="CornerRadius" Value="6" />
-            <Setter Property="Padding" Value="12,6" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="FontSize" Value="12" />
-        </Style>
-        <Style Selector="Button.CancelButton:disabled">
-            <Setter Property="Opacity" Value="0.4" />
-        </Style>
-    </Window.Styles>
-
     <Grid ColumnDefinitions="280,*,*">
         <Border Grid.Column="0" Background="{DynamicResource SidebarBackgroundBrush}" Padding="12,16">
                 <Grid RowDefinitions="Auto,Auto,Auto,*,Auto" RowSpacing="16">
@@ -163,8 +148,6 @@
                                     </StackPanel>
                                      <StackPanel Grid.Column="1" Orientation="Horizontal" Spacing="8">
                                          <Button Command="{Binding ClearFilesCommand}" Classes="TertiaryButton" Content="Clear" />
-                                         <Button Command="{Binding CancelConversionCommand}"
-                                                 IsEnabled="{Binding IsConverting}" Classes="CancelButton" Content="Cancel" />
                                          <Button Command="{Binding ConvertAllCommand}"
                                                  IsEnabled="{Binding IsConverting, Converter={StaticResource InvertBool}}"
                                                 Classes="PrimaryButton">
