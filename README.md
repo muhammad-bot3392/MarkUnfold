@@ -9,18 +9,6 @@ A modern desktop application for converting documents to Markdown using [MarkItD
 ![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
 ![Windows](https://img.shields.io/badge/Windows-10%2F11-blue?style=flat-square)
 
-## Features
-
-- **Batch Conversion** — Convert multiple files at once with live progress tracking
-- **Drag & Drop** — Drag files directly onto the app to add them to the conversion queue
-- **YouTube Support** — Convert YouTube video transcripts to Markdown
-- **Document Preview** — Preview converted Markdown before saving
-- **Dark/Light Theme** — Toggle between dark and light mode
-- **Azure Integration** — Optional Document Intelligence and Content Understanding for enhanced conversion
-- **Conversion History** — Track past conversions with timestamps
-- **Configurable Output** — Choose your own output directory with file name collision handling
-- **Fully Offline** — No internet required after downloading the release
-
 ## Screenshots
 
 ![Screenshot 1](Assets/1.png)
@@ -29,11 +17,20 @@ A modern desktop application for converting documents to Markdown using [MarkItD
 
 ## Installation
 
-Download the latest `MarkUnfold-v1.0.0-win-x64.zip` from the [Releases page](https://github.com/muhammad-bot3392/MarkUnfold/releases).
+Download the latest release from the [Releases page](https://github.com/muhammad-bot3392/MarkUnfold/releases).
 
-1. Extract the zip to any folder
+### Option 1: Installer (Recommended)
+
+1. Run `MarkUnfold-Setup-v1.0.0.exe`
+2. Follow the setup wizard
+3. Launch from Start Menu or Desktop shortcut
+
+### Option 2: Portable
+
+1. Extract `MarkUnfold-v1.0.0-win-x64.zip` to any folder
 2. Run `MarkUnfold.exe`
-3. That's it — no installation, no Python setup, no internet required
+
+No installation, no Python setup, no internet required.
 
 ## Usage
 
